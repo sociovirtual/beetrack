@@ -52,11 +52,11 @@ class  WP_Widget_Beetrack extends WP_Widget {
             CURLOPT_URL => $URLConeccionBeetrack,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "PUT",
+            // CURLOPT_ENCODING => "",
+            // CURLOPT_MAXREDIRS => 10,
+            // CURLOPT_TIMEOUT => 30,
+            // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            // CURLOPT_CUSTOMREQUEST => "PUT",
             CURLOPT_HTTPHEADER => array(
                 'X-AUTH-TOKEN' => $ApiKeyBeetrack ,
                 'Content-Type' => 'application/json'
@@ -75,6 +75,7 @@ class  WP_Widget_Beetrack extends WP_Widget {
         $salida .='<hr>';
         $salida .= $responde;
         $salida .= '<hr>';
+        $salida .= "<code>".$ruta."</code>";
         $salida .= $after_widget;
         
         echo $salida;
