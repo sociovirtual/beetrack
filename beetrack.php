@@ -12,11 +12,33 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
+/* widget */
 
 add_action('widgets_init', 'register_beetrack_widget');
 function register_beetrack_widget(){
 	register_widget( 'WP_Widget_Beetrack' );
 }
 
+
+class  WP_Widget_Beetrack extends WP_Widget {
+
+    /* constructor inicial widget de wordpress */ 
+	public function __construct() {
+		parent::__construct(
+			'Beetrack',
+			esc_html__('Beetrack widget', 'BeetrackIdioma'),
+			array( 'Agregar datos despachos a hoja de ruta de beetrack' => esc_html__('Display photos from flickr', 'BeetrackIdioma'))
+		);
+	}
+
+
+	public function widget( $args, $instance ) {
+
+        
+		extract($args); 
+    }
+
+
+}
 
 
