@@ -33,9 +33,10 @@ class  WP_Widget_Beetrack extends WP_Widget {
 
 
 	public function widget( $args, $instance ) {
-
-        
-		extract($args); 
+        extract($args); 
+        $titulo_widget= apply_filters( 'widget_title', $instance['title'] );
+    
+    
     }
 
 
