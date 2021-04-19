@@ -46,6 +46,8 @@ class  WP_Widget_Beetrack extends WP_Widget {
         /* creando titulo */
         if ( ! empty( $TituloWidget ) ){ $salida_titulo = $before_title . $TituloWidget . $after_title;}
 
+        require('restclient.php');
+
         // /* coneccion a beetrack */
         // $URLConeccionBeetrack = $UrlApiBeetrack.$Ruta;
         // $ArgumentoConeccionBeetrack = array(
