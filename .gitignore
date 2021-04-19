@@ -1,0 +1,20 @@
+## NPM
+.vscode/*
+node_modules/*
+# carpeta destino
+# Respaldos
+*.7z
+# *.dmg
+*.gz
+# *.bz2
+# *.iso
+# *.jar
+*.rar
+*.tar
+*.zip
+*.tgz
+# *.map
+
+### adicional
+package-lock.json
+

@@ -1,0 +1,26 @@
+{
+  "name": "beetrack",
+  "version": "1.0.0",
+  "description": "\"# beetrack\" \r widget para wordpress \r Agregar despachos al hoja de ruta de beetrack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sociovirtual/beetrack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sociovirtual/beetrack/issues"
+  },
+  "homepage": "https://github.com/sociovirtual/beetrack#readme",
+  "dependencies": {
+    "del": "^6.0.0",
+    "gulp-clean": "^0.4.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  }
+}
