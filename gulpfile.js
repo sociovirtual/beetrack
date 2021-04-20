@@ -2,7 +2,7 @@ var origen = "D:/www/corbac/beetrack/beetrack/plugin/**/*(*.php|*.html)",
     destino = "D:/www/corbac/wordpress/wp-content/plugins/beetrack/";
 
 
-const { series, src, dest } = require('gulp'), del = require("del");;
+const { watch, series, src, dest } = require('gulp'), del = require("del");;
 
 function limpiar() {
     return del(destino, {
@@ -15,8 +15,14 @@ function mover() {
         .pipe(dest(destino));
 }
 
+function mirar() {
+    // watch(origen, mover);
+    watch(origen, series(limpiar, mover));
+};
+
 // exports.default = mover;
 
+exports.mirar = mirar;
 exports.mover = mover;
 exports.default = series(limpiar, mover);
 

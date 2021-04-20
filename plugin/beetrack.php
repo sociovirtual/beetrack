@@ -36,35 +36,37 @@ class  WP_Widget_Beetrack extends WP_Widget {
         extract($args); 
         
         /* variables */
-        $ApiKeyBeetrack= "6f3bfd68d7b802d94d2575d28e189797f8369bf8c9781841bd7ac887af1c17ad";
+        // $ApiKeyBeetrack= "6f3bfd68d7b802d94d2575d28e189797f8369bf8c9781841bd7ac887af1c17ad";
+        $ApiKeyBeetrack ='247a6ca85d729c3caab63a1e9249445c0368df125977ff201bba1e81b7637992';
         // https://app.beetrack.com/api/external/v1/routes
-        // $UrlApiBeetrack="http://app.beetrack.com/api/external/v1/";
+        $UrlApiBeetrack="http://app.beetrack.com/api/external/v1/";
+        // https://app.beetrack.com/api/external/v1/dispatches
         $TituloWidget= apply_filters( 'widget_title', $instance['TituloWidget'] );
         $Ruta= (isset($instance['ruta']) && !empty($instance['ruta'])) ? esc_attr($instance['ruta']) : rand() ;
-
 
         /* creando titulo */
         if ( ! empty( $TituloWidget ) ){ $salida_titulo = $before_title . $TituloWidget . $after_title;}
 
+        /* deatlle cobnecvvion  */
+        require 'restclient.php';
+        $api = new RestClient([
+            'base_url' => $UrlApiBeetrack, 
+            // 'format' => "json", 
+            // 'format' => "php",
+             // https://dev.twitter.com/docs/auth/application-only-auth
+            // 'headers' => ['Authorization' => 'X-AUTH-TOKEN '.$ApiKeyBeetrack ,  ], 
+            'headers' => array(
+                'X-AUTH-TOKEN' => $ApiKeyBeetrack ,
+                'Content-Type' => 'application/json'
+            )
+        ]);
+        $result = $api->get("trucks");
+        // GET http://api.twitter.com/1.1/search/tweets.json?q=%23php
+        // if($result->info->http_code == 200)
+            // $response = var_dump($result->decode_response());
 
-        /* conectar */
-        // require 'RestClientLib/RestClient.php';
-        // foreach (glob('RestClientLib/*.php') as $filename) require_once $filename;
-        require( plugin_dir_path( __FILE__ ) . 'RestClientLib/CurlHttpResponse.php');
-        require( plugin_dir_path( __FILE__ ) . 'RestClientLib/CurlMultiHttpResponse.php');
-        require( plugin_dir_path( __FILE__ ) . 'RestClientLib/RestClient.php');
-        require( plugin_dir_path( __FILE__ ) . 'RestClientLib/RestMultiClient.php');
-
-
-$restClient = new RestClient();
-$restClient->setRemoteHost('app.beetrack.com')
-           ->setUriBase('/api/external/v1/')
-           ->setUseSsl(false)
-           ->setUseSslTestMode(false)
-        //    ->setBasicAuthCredentials('username', 'password')
-           ->setHeaders(array('Accept' => 'application/json'));
-// make requests against service
-$response = $restClient->get('resource');
+        // foreach($result as $key => $value)
+        // $salida .= var_dump($value);
 
 
         // /* creando salida widget */
@@ -72,8 +74,16 @@ $response = $restClient->get('resource');
         // $salida .='<hr>';
         // $salida .= var_dump( $resultado_lista_vehiculos->response_status_lines );
         // $salida .= $resultado_lista_vehiculos->info->http_code ;
-        $salida .= $response;
-        $salida .= 'xxx<hr>';
+        $salida .= $result->body;
+        $salida .= $result->info->http_code;
+        // $salida .= print_r( $result->response_status_lines );
+        $salida .= '<hr>';
+        $salida .= $result->headers->content_type;
+        $salida .= $result->headers->x_powered_by;
+        $salida .= $result->headers->url;
+        $salida .= '<hr>';
+        $salida .= $result->response;
+
         // $salida .= "<code>".$ruta."</code>";
         $salida .= $after_widget;
         
