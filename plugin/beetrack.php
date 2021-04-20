@@ -34,10 +34,10 @@ class  WP_Widget_Beetrack extends WP_Widget {
 
 	public function widget( $args, $instance ) {
         extract($args); 
-        
+        // 
         /* variables */
         // $ApiKeyBeetrack= "6f3bfd68d7b802d94d2575d28e189797f8369bf8c9781841bd7ac887af1c17ad";
-        $ApiKeyBeetrack ='247a6ca85d729c3caab63a1e9249445c0368df125977ff201bba1e81b7637992';
+
         // https://app.beetrack.com/api/external/v1/routes
         $UrlApiBeetrack="http://app.beetrack.com/api/external/v1/";
         // https://app.beetrack.com/api/external/v1/dispatches
@@ -57,13 +57,49 @@ class  WP_Widget_Beetrack extends WP_Widget {
             // 'headers' => ['Authorization' => 'X-AUTH-TOKEN '.$ApiKeyBeetrack ,  ], 
             'headers' => array(
                 'X-AUTH-TOKEN' => $ApiKeyBeetrack ,
-                'Content-Type' => 'application/json'
+                // 'Content-Type' => 'application/json'
             )
         ]);
-        $result = $api->get("trucks");
+        // $result = $api->get("trucks");
+
+        $result = $api->post('dispatches', 
+        
+            // 'name' => 'jose vargas name',
+            // 'id' => '234567',
+            // 'contact_name' => 'jose vargas',
+            // 'contact_address' =>'ginber 450' , 
+            // 'contact_phone'=> '91929192'
+        
+            
+            [
+                "identifier" => "1355444",
+                "contact_name" => "jose vargas molina",
+                "contact_address"=>"ginebra 450 , los angeles ",
+                "contact_phone" => "34543534",
+                "contact_email" => "dev@beetrack.com",
+                "items" => [
+                    
+                        "code" => "SKU123",
+                        "description"=> "LED Monitor 10",
+                        "quantity"=> 1,
+                        "price" => 300
+                ],
+                    [
+                        "code"=>"SKU124",
+                        "description"=> "LED Monitor 20",
+                        "quantity"=> 1,
+                        "price"=>400
+            ]
+                ]
+            
+
+
+        );
+
         // GET http://api.twitter.com/1.1/search/tweets.json?q=%23php
         // if($result->info->http_code == 200)
             // $response = var_dump($result->decode_response());
+            // $response_json = $result->decode_response();
 
         // foreach($result as $key => $value)
         // $salida .= var_dump($value);
@@ -80,9 +116,9 @@ class  WP_Widget_Beetrack extends WP_Widget {
         $salida .= '<hr>';
         $salida .= $result->headers->content_type;
         $salida .= $result->headers->x_powered_by;
-        $salida .= $result->headers->url;
+        $salida .= $result->headers->body;
         $salida .= '<hr>';
-        $salida .= $result->response;
+        $salida .= $result->SERVER->REQUEST_METHOD;
 
         // $salida .= "<code>".$ruta."</code>";
         $salida .= $after_widget;
