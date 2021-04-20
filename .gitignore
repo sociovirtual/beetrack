@@ -1,5 +1,5 @@
 ## NPM
-.vscode/*
+# .vscode/*
 node_modules/*
 # carpeta destino
 # Respaldos

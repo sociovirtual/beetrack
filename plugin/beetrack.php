@@ -38,7 +38,7 @@ class  WP_Widget_Beetrack extends WP_Widget {
         /* variables */
         $ApiKeyBeetrack= "6f3bfd68d7b802d94d2575d28e189797f8369bf8c9781841bd7ac887af1c17ad";
         // https://app.beetrack.com/api/external/v1/routes
-        $UrlApiBeetrack="http://app.beetrack.com/api/external/v1/routes/";
+        // $UrlApiBeetrack="http://app.beetrack.com/api/external/v1/";
         $TituloWidget= apply_filters( 'widget_title', $instance['TituloWidget'] );
         $Ruta= (isset($instance['ruta']) && !empty($instance['ruta'])) ? esc_attr($instance['ruta']) : rand() ;
 
@@ -46,36 +46,33 @@ class  WP_Widget_Beetrack extends WP_Widget {
         /* creando titulo */
         if ( ! empty( $TituloWidget ) ){ $salida_titulo = $before_title . $TituloWidget . $after_title;}
 
-        require('restclient.php');
 
-        // /* coneccion a beetrack */
-        // $URLConeccionBeetrack = $UrlApiBeetrack.$Ruta;
-        // $ArgumentoConeccionBeetrack = array(
-        //     CURLOPT_URL => $URLConeccionBeetrack,
-        //     CURLOPT_RETURNTRANSFER => true,
-        //     CURLOPT_FOLLOWLOCATION => true,
-        //     // CURLOPT_ENCODING => "",
-        //     // CURLOPT_MAXREDIRS => 10,
-        //     // CURLOPT_TIMEOUT => 30,
-        //     // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //     // CURLOPT_CUSTOMREQUEST => "PUT",
-        //     CURLOPT_HTTPHEADER => array(
-        //         'X-AUTH-TOKEN' => $ApiKeyBeetrack ,
-        //         'Content-Type' => 'application/json'
-        //     )
-        // );
+        /* conectar */
+        // require 'RestClientLib/RestClient.php';
+        // foreach (glob('RestClientLib/*.php') as $filename) require_once $filename;
+        require( plugin_dir_path( __FILE__ ) . 'RestClientLib/CurlHttpResponse.php');
+        require( plugin_dir_path( __FILE__ ) . 'RestClientLib/CurlMultiHttpResponse.php');
+        require( plugin_dir_path( __FILE__ ) . 'RestClientLib/RestClient.php');
+        require( plugin_dir_path( __FILE__ ) . 'RestClientLib/RestMultiClient.php');
 
-        // $curl = curl_init();
-        // curl_setopt_array($curl, $ArgumentoConeccionBeetrack );
-        // $responde = curl_exec($curl);
-        // $error_responde = curl_error($curl);
-        // curl_close($curl);
 
-        // if ($error_responde) { $responde = "cURL Error #:" . $error_responde; }
+$restClient = new RestClient();
+$restClient->setRemoteHost('app.beetrack.com')
+           ->setUriBase('/api/external/v1/')
+           ->setUseSsl(false)
+           ->setUseSslTestMode(false)
+        //    ->setBasicAuthCredentials('username', 'password')
+           ->setHeaders(array('Accept' => 'application/json'));
+// make requests against service
+$response = $restClient->get('resource');
+
+
         // /* creando salida widget */
-        $salida = $before_widget;
+        $salida .= $before_widget;
         // $salida .='<hr>';
-        // $salida .= $responde;
+        // $salida .= var_dump( $resultado_lista_vehiculos->response_status_lines );
+        // $salida .= $resultado_lista_vehiculos->info->http_code ;
+        $salida .= $response;
         $salida .= 'xxx<hr>';
         // $salida .= "<code>".$ruta."</code>";
         $salida .= $after_widget;
